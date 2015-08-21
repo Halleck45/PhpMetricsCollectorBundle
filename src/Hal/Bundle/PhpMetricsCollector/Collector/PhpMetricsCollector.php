@@ -42,25 +42,24 @@ class PhpMetricsCollector extends DataCollector
         // group files into tmp folder
         $folder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
         mkdir($folder);
+            
+        // run PhpMetrics
+        $tokenizer = new Tokenizer();
+        $tokenType = new TokenType();
+
+        // halstead
+        $halstead = new Halstead($tokenizer, $tokenType);
+        $loc = new Loc($tokenizer);
+        $complexity = new McCabe($tokenizer);
+        $maintainability = new MaintainabilityIndex();
+            
         foreach ($files as $file) {
-            // run PhpMetrics
-            $tokenizer = new Tokenizer();
-            $tokenType = new TokenType();
-
-            // halstead
-            $halstead = new Halstead($tokenizer, $tokenType);
             $rHalstead = $halstead->calculate($file);
-
             // loc
-            $loc = new Loc($tokenizer);
             $rLoc = $loc->calculate($file);
-
             // complexity
-            $complexity = new McCabe($tokenizer);
             $rComplexity = $complexity->calculate($file);
-
             // maintainability
-            $maintainability = new MaintainabilityIndex();
             $rMaintenability = $maintainability->calculate($rHalstead, $rLoc, $rComplexity);
 
             // store result
