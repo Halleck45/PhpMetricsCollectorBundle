@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "halleck45/phpmetrics": ">=1.2.0"
+        "phpmetrics/phpmetrics": ">=1.2.0"
     },
     "require-dev": {
         "symfony/framework-bundle": ">=2.2,<3",
