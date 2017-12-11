@@ -11,19 +11,24 @@
         }
     ],
     "require": {
-        "halleck45/phpmetrics": ">=1.2.0"
+        "symfony/http-kernel": "^2.2|^3.0|^4.0",
+        "phpmetrics/phpmetrics": "^2.3"
     },
     "require-dev": {
-        "symfony/framework-bundle": ">=2.2,<3",
-        "symfony/finder": ">=2.2,<3",
-        "symfony/web-profiler-bundle": ">=2.2,<3",
-        "symfony/class-loader": ">=2.2,<3",
-        "symfony/twig-bundle": ">=2.2,<3",
-        "symfony/browser-kit": ">=2.2,<3"
+        "symfony/framework-bundle": "^2.2|^3.0|^4.0",
+        "squizlabs/php_codesniffer": "^3.1",
+        "phpunit/phpunit": "^4.8.27",
+        "symfony/twig-bundle": "^2.2|^3.0|^4.0",
+        "symfony/web-profiler-bundle": "^2.2|^3.0|^4.0"
     },
     "autoload": {
-        "psr-0": {
-            "Hal\\Bundle\\PhpMetricsCollector\\": [ "src/"]
+        "psr-4": {
+            "Hal\\Bundle\\PhpMetricsCollector\\": "src/Hal/Bundle/PhpMetricsCollector/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "My\\": "testing/application/src"
         }
     }
 }
