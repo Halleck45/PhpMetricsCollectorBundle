@@ -7,7 +7,6 @@ cache:
     - $HOME/.composer/cache
 
 php:
- - 5.4
  - 5.5
  - 5.6
  - 7.0
@@ -25,20 +24,27 @@ env:
     - EXECUTE_CS_CHECK=false
     - TEST_COVERAGE=false
   matrix:
-    - DEPENDENCIES="--prefer-lowest --prefer-stable"
-    - DEPENDENCIES=""
-    - SYMFONY_VERSION="^2.2"
-    - SYMFONY_VERSION="^3.0"
-    - SYMFONY_VERSION="^4.0"
+    - SYMFONY_VERSION="^2.2" DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - SYMFONY_VERSION="^2.2" DEPENDENCIES=""
+    - SYMFONY_VERSION="^3.0" DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - SYMFONY_VERSION="^3.0" DEPENDENCIES=""
+    - SYMFONY_VERSION="^4.0" DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - SYMFONY_VERSION="^4.0" DEPENDENCIES=""
 
 matrix:
   fast_finish: true
   include:
     - php: 7.2
-      env: DEPENDENCIES="" SYMFONY_VERSION="^4.0" EXECUTE_CS_CHECK=true TEST_COVERAGE=true
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES="" EXECUTE_CS_CHECK=true TEST_COVERAGE=true
   exclude:
     - php: 7.2
-      env: DEPENDENCIES="" SYMFONY_VERSION="^4.0"
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES=""
+    - php: 5.5
+      env: SYMFONY_VERSION="^4.0"
+    - php: 5.6
+      env: SYMFONY_VERSION="^4.0"
+    - php: 7.0
+      env: SYMFONY_VERSION="^4.0"
 
 before_install:
   - phpenv config-rm xdebug.ini || return 0
