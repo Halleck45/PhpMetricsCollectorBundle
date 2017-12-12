@@ -17,6 +17,15 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class PhpMetricsCollector extends DataCollector
 {
+    public function reset()
+    {
+        $this->data = [
+            'average' => [],
+            'cclasses' => 0,
+            'classes' => [],
+        ];
+    }
+
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         // filter loaded files
