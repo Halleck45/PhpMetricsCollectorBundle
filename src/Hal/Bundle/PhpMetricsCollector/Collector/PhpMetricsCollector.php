@@ -84,9 +84,9 @@ class PhpMetricsCollector extends DataCollector
         $average = [];
         if (count($classMetrics) > 0) {
             $calculateAvg = function ($property) use ($classMetrics) {
-                return array_sum(array_map(function (Metric $classMetric) use ($property) {
+                return round(array_sum(array_map(function (Metric $classMetric) use ($property) {
                     return $classMetric->get($property);
-                }, $classMetrics)) / count($classMetrics);
+                }, $classMetrics)) / count($classMetrics), 2);
             };
             $average['maintainability'] = $consolidated->getAvg()->mi;
             $average['commentWeight'] = $consolidated->getAvg()->commentWeight;
