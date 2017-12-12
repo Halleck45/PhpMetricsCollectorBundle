@@ -43,7 +43,7 @@ matrix:
 before_install:
   - phpenv config-rm xdebug.ini || return 0
   - composer self-update
-  - if [[ -z "$SYMFONY_VERSION ]]; then composer require symfony/http-kernel:$SYMFONY_VERSION ; fi
+  - if [[ -n "$SYMFONY_VERSION ]]; then composer require "symfony/http-kernel:$SYMFONY_VERSION" "symfony/dependency-injection:$SYMFONY_VERSION" ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
 
 install:
@@ -55,7 +55,7 @@ before_script:
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml ; else vendor/bin/phpunit ; fi
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then vendor/bin/phpcs --standard=PSR2 src testing ; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then vendor/bin/phpcs --standard=PSR2 --ignore=testing/application/cache/*,testing/application/AppKernel.php src testing ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php vendor/bin/coveralls -v ; fi
