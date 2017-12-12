@@ -3,7 +3,7 @@
 {% block toolbar %}
     {# This toolbar item may appear along the top or bottom of the screen.#}
     {% set icon %}
-        {% if collector.files|length %}
+        {% if collector.classes|length %}
             <span class="sf-toolbar-info-with-next-pointer">
                 <img alt="PhpMetrics" src="data:image/png;base64,
         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
@@ -15,7 +15,7 @@
     {% endset %}
 
     {% set text %}
-        {% if collector.files|length %}
+        {% if collector.classes|length %}
             <div class="sf-toolbar-info-piece">
                 <b>Maintainability Index</b>
                 <span class="sf-toolbar-status sf-toolbar-status-{% if collector.maintainabilityIndex > 85 %}green{% elseif collector.maintainabilityIndex > 65 %}yellow{% else %}red{% endif %}">{{ collector.maintainabilityIndex|round }}</span>
@@ -53,8 +53,8 @@
                 <span>{{ collector.vocabulary|round(2) }}</span>
             </div>
             <div class="sf-toolbar-info-piece">
-                <b>Analyzed files</b>
-                <span>{{ collector.numberOfFiles }}</span>
+                <b>Analyzed classes</b>
+                <span>{{ collector.numberOfClasses }}</span>
             </div>
         {% endif %}
     {% endset %}
@@ -82,11 +82,11 @@
 
 {% block panel %}
     <h2>PhpMetrics Overview</h2>
-    {% if collector.files|length %}
+    {% if collector.classes|length %}
         <table id="phpmetrics-table">
             <thead>
                 <tr>
-                    <th>File</th>
+                    <th>Class</th>
                     <th>Lines of code</th>
                     <th>Maintainability index</th>
                     <th>Complexity</th>
@@ -96,15 +96,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for path,file in collector.files %}
+                {% for className,score in collector.classes %}
                     <tr>
-                        <td>{{ path }}</td>
-                        <td>{{ file.loc }}</td>
-                        <td>{{ file.maintainability|round(2) }}</td>
-                        <td>{{ file.complexity|round(2) }}</td>
-                        <td>{{ file.intelligentContent|round(2) }}</td>
-                        <td>{{ file.bugs|round(2) }}</td>
-                        <td>{{ file.commentWeight|round(2) }}</td>
+                        <td>{{ className }}</td>
+                        <td>{{ score.loc }}</td>
+                        <td>{{ score.maintainability|round(2) }}</td>
+                        <td>{{ score.complexity|round(2) }}</td>
+                        <td>{{ score.intelligentContent|round(2) }}</td>
+                        <td>{{ score.bugs|round(2) }}</td>
+                        <td>{{ score.commentWeight|round(2) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
