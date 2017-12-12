@@ -16,6 +16,7 @@
         </testsuite>
     </testsuites>
     <php>
+        <server name="KERNEL_CLASS" value="AppKernel" />
         <server name="KERNEL_DIR" value="testing/application" />
     </php>
 </phpunit>
