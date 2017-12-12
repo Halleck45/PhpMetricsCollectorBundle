@@ -55,15 +55,11 @@ matrix:
 before_install:
   - phpenv config-rm xdebug.ini || return 0
   - composer self-update
-  - if [[ -n "$SYMFONY_VERSION" ]]; then composer require "symfony/http-kernel:$SYMFONY_VERSION" "symfony/dependency-injection:$SYMFONY_VERSION" ; fi
-  - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
 
 install:
-  - travis_retry composer update --no-interaction --prefer-dist $DEPENDENCIES
+  - travis_retry composer require --prefer-dist --no-interaction $DEPENDENCIES "symfony/http-kernel:$SYMFONY_VERSION" "symfony/dependency-injection:$SYMFONY_VERSION"
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
   - composer info -i
-
-before_script:
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then mkdir -p "$HOME/.php-cs-fixer" ; fi
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml ; else vendor/bin/phpunit ; fi
