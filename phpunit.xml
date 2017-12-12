@@ -15,6 +15,13 @@
             <directory>testing</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+
     <php>
         <server name="KERNEL_CLASS" value="AppKernel" />
         <server name="KERNEL_DIR" value="testing/application" />
