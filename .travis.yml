@@ -40,11 +40,17 @@ matrix:
     - php: 7.2
       env: SYMFONY_VERSION="^4.0" DEPENDENCIES=""
     - php: 5.5
-      env: SYMFONY_VERSION="^4.0"
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES=""
+    - php: 5.5
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: 5.6
-      env: SYMFONY_VERSION="^4.0"
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES=""
+    - php: 5.6
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: 7.0
-      env: SYMFONY_VERSION="^4.0"
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES=""
+    - php: 7.0
+      env: SYMFONY_VERSION="^4.0" DEPENDENCIES="--prefer-lowest --prefer-stable"
 
 before_install:
   - phpenv config-rm xdebug.ini || return 0
