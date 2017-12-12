@@ -61,9 +61,12 @@ before_install:
   - composer self-update
 
 install:
-  - travis_retry composer require --prefer-dist --no-interaction $DEPENDENCIES "symfony/http-kernel:$SYMFONY_VERSION" "symfony/dependency-injection:$SYMFONY_VERSION" "symfony/web-profiler-bundle:$SYMFONY_VERSION"
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
+  - travis_retry composer require --prefer-dist --no-interaction $DEPENDENCIES "symfony/http-kernel:$SYMFONY_VERSION" "symfony/dependency-injection:$SYMFONY_VERSION" "symfony/web-profiler-bundle:$SYMFONY_VERSION"
   - composer info -i
+
+before_skript:
+  - if [[ $TEST_COVERAGE == 'true' ]]; then mkdir -p build/logs ; fi
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml ; else vendor/bin/phpunit ; fi
