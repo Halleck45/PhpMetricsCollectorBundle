@@ -1,5 +1,6 @@
 services:
     data_collector.phpmetrics_collector:
         class: Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector
+        arguments: ['@kernel']
         tags:
             - { name: data_collector, template: "PhpMetricsCollectorBundle:Collector:collector", id: "phpmetrics_collector" }

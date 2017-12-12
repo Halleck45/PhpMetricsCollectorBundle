@@ -14,9 +14,18 @@ use Hal\Violation\Violations;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\HttpKernel\Kernel;
 
 class PhpMetricsCollector extends DataCollector
 {
+    /** @var Kernel */
+    private $kernel;
+
+    public function __construct(Kernel $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     public function reset()
     {
         $this->data = [
@@ -45,10 +54,14 @@ class PhpMetricsCollector extends DataCollector
             'Form',
             'classes.php',
         ];
-        $files = array_filter($files, function ($filePath) use ($excludes) {
+        $projectDir = method_exists($this->kernel, 'getProjectDir')
+            ? $this->kernel->getProjectDir()
+            : $this->kernel->getRootDir() . '/../';
+        $projectDir = realpath($projectDir);
+        $files = array_filter($files, function ($filePath) use ($excludes, $projectDir) {
             return ! preg_match(
                 '!' . implode('|', $excludes) . '!',
-                mb_substr($filePath, mb_strlen(getcwd()))
+                mb_substr($filePath, mb_strlen($projectDir))
             );
         });
         $config = new Config();
