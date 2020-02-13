@@ -1,3 +1,5 @@
+TO REMOVE
+
 # PhpMetricsCollectorBundle
 
 Integrates [PhpMetrics](http://www.phpmetrics.org) in Symfony2 debug toolbar.
