@@ -10,11 +10,3 @@ services:
                 # priority: 300
         public: false
         arguments: ['@kernel']
-
-
-#services:
-#    data_collector.phpmetrics_collector:
-#        class: Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector
-#        arguments: ['@kernel']
-#        tags:
-#            - { name: data_collector, template: "PhpMetricsCollectorBundle:Collector:collector.html.twig", id: "phpmetrics_collector" }
