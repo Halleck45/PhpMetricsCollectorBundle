@@ -8,15 +8,22 @@
         convertWarningsToExceptions = "true"
         processIsolation            = "false"
         stopOnFailure               = "false"
-        syntaxCheck                 = "false"
-        bootstrap                   = "testing/application/bootstrap.php" >
+        syntaxCheck                 = "false">
 
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>testing</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+
     <php>
+        <server name="KERNEL_CLASS" value="AppKernel" />
         <server name="KERNEL_DIR" value="testing/application" />
     </php>
 </phpunit>

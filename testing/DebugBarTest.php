@@ -10,7 +10,7 @@ class DebugBarTest extends WebTestCase
         $client = static::createClient();
         $client->followRedirects(true);
         $client->enableProfiler();
-        $crawler = $client->request('GET', '/route1');
+        $client->request('GET', '/route1');
         $collector = $client->getProfile()->getCollector('phpmetrics_collector');
         $this->assertInstanceOf('Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector', $collector);
     }
@@ -20,7 +20,7 @@ class DebugBarTest extends WebTestCase
         $client = static::createClient();
         $client->followRedirects(true);
         $client->enableProfiler();
-        $crawler = $client->request('GET', '/route1');
+        $client->request('GET', '/route1');
         $collector = $client->getProfile()->getCollector('phpmetrics_collector');
         $this->assertGreaterThan(0, $collector->getMaintainabilityIndex());
         $this->assertInternalType("float", $collector->getMaintainabilityIndex());

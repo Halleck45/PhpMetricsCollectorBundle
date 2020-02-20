@@ -1,5 +1,20 @@
 services:
-    data_collector.phpmetrics_collector:
-        class: Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector
+    Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector:
         tags:
-            - { name: data_collector, template: "PhpMetricsCollectorBundle:Collector:collector", id: "phpmetrics_collector" }
+            -
+                name:     data_collector
+                template: 'PhpMetricsCollectorBundle/Collector/collector.html.twig'
+                # must match the value returned by the getName() method
+                id:       'phpmetrics_collector'
+                # optional priority
+                # priority: 300
+        public: false
+        arguments: ['@kernel']
+
+
+#services:
+#    data_collector.phpmetrics_collector:
+#        class: Hal\Bundle\PhpMetricsCollector\Collector\PhpMetricsCollector
+#        arguments: ['@kernel']
+#        tags:
+#            - { name: data_collector, template: "PhpMetricsCollectorBundle:Collector:collector.html.twig", id: "phpmetrics_collector" }
