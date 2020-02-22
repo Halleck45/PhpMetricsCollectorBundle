@@ -23,9 +23,9 @@ class DebugBarTest extends WebTestCase
         $client->request('GET', '/route1');
         $collector = $client->getProfile()->getCollector('phpmetrics_collector');
         $this->assertGreaterThan(0, $collector->getMaintainabilityIndex());
-        $this->assertInternalType("float", $collector->getMaintainabilityIndex());
-        $this->assertInternalType("float", $collector->getCommentWeight());
-        $this->assertInternalType("float", $collector->getDifficulty());
-        $this->assertInternalType("float", $collector->getBugs());
+        $this->assertIsFloat($collector->getMaintainabilityIndex());
+        $this->assertIsFloat($collector->getCommentWeight());
+        $this->assertIsFloat($collector->getDifficulty());
+        $this->assertIsFloat($collector->getBugs());
     }
 }
