@@ -96,35 +96,35 @@
                 </tr>
             </thead>
             <tbody>
-                {% for className,score in collector.classes %}
-                    <tr>
-                        <td>{{ className }}</td>
-                        <td>{{ score.loc }}</td>
-                        <td>{{ score.maintainability|round(2) }}</td>
-                        <td>{{ score.complexity|round(2) }}</td>
-                        <td>{{ score.intelligentContent|round(2) }}</td>
-                        <td>{{ score.bugs|round(2) }}</td>
-                        <td>{{ score.commentWeight|round(2) }}</td>
-                    </tr>
-                {% endfor %}
+            {% for path,class in collector.classes %}
+                <tr>
+                    <td>{{ path }}</td>
+                    <td>{{ class.loc }}</td>
+                    <td>{{ class.maintainability|round(2) }}</td>
+                    <td>{{ class.complexity|round(2) }}</td>
+                    <td>{{ class.intelligentContent|round(2) }}</td>
+                    <td>{{ class.bugs|round(2) }}</td>
+                    <td>{{ class.commentWeight|round(2) }}</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
         <p>
-            This page is provided by <a href="http://www.phpmetrics.org">PhpMetrics</a> Thanks for your <a href="https://github.com/phpmetrics/PhpMetrics/issues">feedback</a>.
+            This page is provided by <a href="http://www.phpmetrics.org">PhpMetrics</a> Thanks for your <a href="https://github.com/Halleck45/PhpMetrics/issues">feedback</a>.
         </p>
 
         <script type="text/javascript">
             function initPhpMetrics() {
                 var table = document.getElementById('phpmetrics-table')
-                        ,tableHead = table.querySelector('thead')
-                        ,tableHeaders = tableHead.querySelectorAll('th')
-                        ,tableBody = table.querySelector('tbody')
-                        ;
+                    ,tableHead = table.querySelector('thead')
+                    ,tableHeaders = tableHead.querySelectorAll('th')
+                    ,tableBody = table.querySelector('tbody')
+                ;
                 tableHead.addEventListener('click',function(e){
                     var tableHeader = e.target
-                            ,textContent = tableHeader.textContent
-                            ,tableHeaderIndex,isAscending,order
-                            ;
+                        ,textContent = tableHeader.textContent
+                        ,tableHeaderIndex,isAscending,order
+                    ;
                     if (textContent!=='add row') {
                         while (tableHeader.nodeName!=='TH') {
                             tableHeader = tableHeader.parentNode;
@@ -134,11 +134,11 @@
                         order = isAscending?'desc':'asc';
                         tableHeader.setAttribute('data-order',order);
                         tinysort(
-                                tableBody.querySelectorAll('tr')
-                                ,{
-                                    selector:'td:nth-child('+(tableHeaderIndex+1)+')'
-                                    ,order: order
-                                }
+                            tableBody.querySelectorAll('tr')
+                            ,{
+                                selector:'td:nth-child('+(tableHeaderIndex+1)+')'
+                                ,order: order
+                            }
                         );
                     }
                 });

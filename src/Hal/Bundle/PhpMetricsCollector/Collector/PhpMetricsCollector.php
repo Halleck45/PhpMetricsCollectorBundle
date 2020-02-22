@@ -181,6 +181,6 @@ class PhpMetricsCollector extends DataCollector
 
     public function getName()
     {
-        return 'PhpMetricsCollectorBundle';
+        return 'phpmetrics_collector';
     }
 }

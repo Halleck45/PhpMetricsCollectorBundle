@@ -1,13 +1,16 @@
 {
     "name": "halleck45/phpmetrics-collector-bundle",
-    "description": "Display PhpMetrics informations in Symfony2 Debug bar",
-    "keywords": ["symfony2", "phpmetrics"],
+    "description": "Display PhpMetrics informations in Symfony 5 Debug bar",
+    "keywords": ["symfony4", "symfony5", "phpmetrics"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Jean-François Lépine",
             "homepage": "http://blog.lepine.pro"
+        },
+        {
+            "name": "Eric COURTIAL"
         }
     ],
     "require": {

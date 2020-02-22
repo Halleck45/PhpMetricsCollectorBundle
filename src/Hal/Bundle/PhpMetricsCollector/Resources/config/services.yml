@@ -3,7 +3,7 @@ services:
         tags:
             -
                 name:     data_collector
-                template: 'PhpMetricsCollectorBundle/Collector/collector.html.twig'
+                template: 'PhpMetricsCollectorBundle:Collector:collector.html.twig'
                 # must match the value returned by the getName() method
                 id:       'phpmetrics_collector'
                 # optional priority
