@@ -35,7 +35,7 @@ class PhpMetricsCollector extends DataCollector
         ];
     }
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         // filter loaded files
         $files = get_included_files();
