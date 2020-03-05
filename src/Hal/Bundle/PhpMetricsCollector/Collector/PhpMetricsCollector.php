@@ -9,6 +9,7 @@ use Hal\Component\Output\TestOutput;
 use Hal\Metric\ClassMetric;
 use Hal\Metric\Consolidated;
 use Hal\Metric\InterfaceMetric;
+use Hal\Metric\Metrics;
 use Hal\Metric\Metric;
 use Hal\Violation\Violations;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,24 @@ use Symfony\Component\HttpKernel\Kernel;
 class PhpMetricsCollector extends DataCollector
 {
     /** @var Kernel */
-    private $kernel;
+    protected $kernel;
+
+    /** @var array */
+    protected const EXCLUDES = [
+        'vendor',
+        'pear',
+        '.phar',
+        'bootstrap.php',
+        'Test',
+        '/app',
+        'AppKernel.php',
+        'autoload.php',
+        'cache/',
+        'app.php',
+        'app_dev.php',
+        'Form',
+        'classes.php',
+    ];
 
     public function __construct(Kernel $kernel)
     {
@@ -35,46 +53,15 @@ class PhpMetricsCollector extends DataCollector
         ];
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        // filter loaded files
-        $files = get_included_files();
-        $excludes = [
-            'vendor',
-            'pear',
-            '\\.phar',
-            'bootstrap\.php',
-            'Test',
-            '/app',
-            'AppKernel.php',
-            'autoload.php',
-            'cache/',
-            'app.php',
-            'app_dev.php',
-            'Form',
-            'classes.php',
-        ];
-        $projectDir = method_exists($this->kernel, 'getProjectDir')
-            ? $this->kernel->getProjectDir()
-            : $this->kernel->getRootDir() . '/../';
-        $projectDir = realpath($projectDir);
-        $files = array_filter($files, function ($filePath) use ($excludes, $projectDir) {
-            return ! preg_match(
-                '!' . implode('|', $excludes) . '!',
-                mb_substr($filePath, mb_strlen($projectDir))
-            );
-        });
-        $config = new Config();
-        $config->set('exclude', $excludes);
-        $config->set('files', $files);
-        $metrics = (new Analyze($config, new TestOutput(), new Issuer(new TestOutput())))->run($files);
-        foreach ($metrics->all() as $each) {
-            $each->set('violations', new Violations());
-        }
+        $metrics = $this->getMetrics();
+
         $classMetrics = array_filter($metrics->all(), function (Metric $metric) {
             return $metric instanceof ClassMetric
                 || $metric instanceof InterfaceMetric;
         });
+
         $consolidated = new Consolidated($metrics);
         $scoreByClass = [];
         /** @var ClassMetric|InterfaceMetric $each */
@@ -95,21 +82,23 @@ class PhpMetricsCollector extends DataCollector
 
         // average
         $average = [];
-        if (count($classMetrics) > 0) {
-            $calculateAvg = function ($property) use ($classMetrics) {
-                return round(array_sum(array_map(function (Metric $classMetric) use ($property) {
-                    return $classMetric->get($property);
-                }, $classMetrics)) / count($classMetrics), 2);
+        if ($classMetrics !== []) {
+            $calculateAvg = static function (string $property) use ($classMetrics): float {
+                return round(array_sum(array_map(static function (Metric $classMetric) use ($property) {
+                        return $classMetric->get($property);
+                    }, $classMetrics)) / count($classMetrics), 2);
             };
-            $average['maintainability'] = $consolidated->getAvg()->mi;
-            $average['commentWeight'] = $consolidated->getAvg()->commentWeight;
-            $average['complexity'] = $consolidated->getAvg()->ccn;
+
+            $averageConsolidated = $consolidated->getAvg();
+            $average['maintainability'] = $averageConsolidated->mi;
+            $average['commentWeight'] = $averageConsolidated->commentWeight;
+            $average['complexity'] = $averageConsolidated->ccn;
             $average['loc'] = $calculateAvg('loc');
             $average['lloc'] = $calculateAvg('lloc');
             $average['cloc'] = $calculateAvg('cloc');
-            $average['bugs'] = $consolidated->getAvg()->bugs;
-            $average['difficulty'] = $consolidated->getAvg()->difficulty;
-            $average['intelligentContent'] = $consolidated->getAvg()->intelligentContent;
+            $average['bugs'] = $averageConsolidated->bugs;
+            $average['difficulty'] = $averageConsolidated->difficulty;
+            $average['intelligentContent'] = $averageConsolidated->intelligentContent;
             $average['vocabulary'] = $calculateAvg('vocabulary');
         }
         $this->data = [
@@ -182,5 +171,37 @@ class PhpMetricsCollector extends DataCollector
     public function getName()
     {
         return 'phpmetrics_collector';
+    }
+
+    protected function getFiles(): array
+    {
+        // filter loaded files
+        $files = get_included_files();
+        $projectDir = method_exists($this->kernel, 'getProjectDir')
+            ? $this->kernel->getProjectDir()
+            : $this->kernel->getRootDir() . '/../';
+        $projectDir = realpath($projectDir);
+        $files = array_filter($files, static function (string $filePath) use ($projectDir): bool {
+            return ! preg_match(
+                '!' . implode('|', static::EXCLUDES) . '!',
+                mb_substr($filePath, mb_strlen($projectDir))
+            );
+        });
+
+        return $files;
+    }
+
+    protected function getMetrics(): Metrics
+    {
+        $files = $this->getFiles();
+        $config = new Config();
+        $config->set('exclude', static::EXCLUDES);
+        $config->set('files', $files);
+        $metrics = (new Analyze($config, new TestOutput(), new Issuer(new TestOutput())))->run($files);
+        foreach ($metrics->all() as $each) {
+            $each->set('violations', new Violations());
+        }
+
+        return $metrics;
     }
 }
