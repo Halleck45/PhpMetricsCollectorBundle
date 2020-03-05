@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hal\Bundle\PhpMetricsCollector\Collector;
 
 use Hal\Application\Analyze;
@@ -9,8 +11,8 @@ use Hal\Component\Output\TestOutput;
 use Hal\Metric\ClassMetric;
 use Hal\Metric\Consolidated;
 use Hal\Metric\InterfaceMetric;
-use Hal\Metric\Metrics;
 use Hal\Metric\Metric;
+use Hal\Metric\Metrics;
 use Hal\Violation\Violations;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,7 +55,7 @@ class PhpMetricsCollector extends DataCollector
         ];
     }
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         $metrics = $this->getMetrics();
 
@@ -85,8 +87,8 @@ class PhpMetricsCollector extends DataCollector
         if ($classMetrics !== []) {
             $calculateAvg = static function (string $property) use ($classMetrics): float {
                 return round(array_sum(array_map(static function (Metric $classMetric) use ($property) {
-                        return $classMetric->get($property);
-                    }, $classMetrics)) / count($classMetrics), 2);
+                    return $classMetric->get($property);
+                }, $classMetrics)) / count($classMetrics), 2);
             };
 
             $averageConsolidated = $consolidated->getAvg();
@@ -182,7 +184,7 @@ class PhpMetricsCollector extends DataCollector
             : $this->kernel->getRootDir() . '/../';
         $projectDir = realpath($projectDir);
         $files = array_filter($files, static function (string $filePath) use ($projectDir): bool {
-            return ! preg_match(
+            return !preg_match(
                 '!' . implode('|', static::EXCLUDES) . '!',
                 mb_substr($filePath, mb_strlen($projectDir))
             );

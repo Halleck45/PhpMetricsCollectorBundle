@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hal\Bundle\PhpMetricsCollector;
 
 use Hal\Bundle\PhpMetricsCollector\DependencyInjection\AppExtension;
