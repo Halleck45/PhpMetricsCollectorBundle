@@ -59,7 +59,7 @@ class PhpMetricsCollector extends DataCollector
     {
         $metrics = $this->getMetrics();
 
-        $classMetrics = array_filter($metrics->all(), function (Metric $metric) {
+        $classMetrics = array_filter($metrics->all(), static function (Metric $metric): bool {
             return $metric instanceof ClassMetric
                 || $metric instanceof InterfaceMetric;
         });
