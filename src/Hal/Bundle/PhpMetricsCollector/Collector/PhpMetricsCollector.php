@@ -179,9 +179,7 @@ class PhpMetricsCollector extends DataCollector
     {
         // filter loaded files
         $files = get_included_files();
-        $projectDir = method_exists($this->kernel, 'getProjectDir')
-            ? $this->kernel->getProjectDir()
-            : $this->kernel->getRootDir() . '/../';
+        $projectDir = $this->kernel->getProjectDir();
         $projectDir = realpath($projectDir);
         $files = array_filter($files, static function (string $filePath) use ($projectDir): bool {
             return !preg_match(

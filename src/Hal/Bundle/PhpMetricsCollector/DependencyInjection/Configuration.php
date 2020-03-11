@@ -15,12 +15,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('phpmetrics');
-        // Keep compatibility with symfony/config < 4.2
-        if (!method_exists($treeBuilder, 'getRootNode')) {
-            $treeBuilder->root('phpmetrics');
-        } else {
-            $treeBuilder->getRootNode();
-        }
+        $treeBuilder->getRootNode();
 
         return $treeBuilder;
     }

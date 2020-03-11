@@ -10,11 +10,10 @@ Integrates [PhpMetrics](http://www.phpmetrics.org) in Symfony 5 debug toolbar.
 ![Overview of PhpMetricsCollectorBundle](doc/images/overview.png)
 
 # Support
+* Support Symfony >= 4.3. For older versions of Symfony, use older versions of PHPMetrics.
 * Tested on the following versions:
     * Symfony 5.0.4
     * Symfony 4.3.11 with API Platform
-    
-Please note the we do not support - officially - for Symfony version < 4.   
 
 # Installation
 

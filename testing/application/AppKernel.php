@@ -9,14 +9,12 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = [
+        return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Hal\Bundle\PhpMetricsCollector\PhpMetricsCollectorBundle(),
         ];
-
-        return $bundles;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
