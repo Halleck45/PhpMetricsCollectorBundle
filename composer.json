@@ -26,7 +26,6 @@
         "phpstan/phpstan-deprecation-rules": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpstan/phpstan-strict-rules": "^0.12",
-        "phpunit/phpunit": "^8|^9",
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/browser-kit": "^3.0|^4.0",
         "symfony/class-loader": "^3.0",
@@ -35,7 +34,8 @@
         "symfony/framework-bundle": "^3.0|^5.0",
         "symfony/templating": "^3.0|^4.0",
         "symfony/twig-bundle": "^3.0|^4.0",
-        "symfony/web-profiler-bundle": "^3.0|^4.0"
+        "symfony/web-profiler-bundle": "^3.0|^4.0",
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
